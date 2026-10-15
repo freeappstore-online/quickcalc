@@ -1,10 +1,20 @@
 {
   "name": "quickcalc",
+  "description": "Coming soon — tip and split, percent, discount, age and date, and fuel calculators. Private and offline.",
   "private": true,
   "packageManager": "pnpm@10.30.3",
-  "engines": { "node": ">=22" },
-  "pnpm": { "onlyBuiltDependencies": ["esbuild"] },
-  "repository": { "type": "git", "url": "git+https://github.com/freeappstore-online/quickcalc.git" },
+  "engines": {
+    "node": ">=22"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/freeappstore-online/quickcalc.git"
+  },
   "scripts": {
     "dev": "pnpm --filter @quickcalc/web dev",
     "build": "pnpm --filter @quickcalc/web build",
