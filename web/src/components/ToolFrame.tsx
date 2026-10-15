@@ -171,3 +171,47 @@ export function Choice<T extends string>({
     </div>
   )
 }
+
+/** A large native date picker. `value` is "YYYY-MM-DD" or "" (empty). */
+export function DateField({
+  label,
+  value,
+  onChange,
+  hint,
+  action,
+}: {
+  label: string
+  value: string
+  onChange: (iso: string) => void
+  hint?: string
+  /** An optional button beside the field, e.g. Today. */
+  action?: { label: string; onClick: () => void }
+}) {
+  const id = useId()
+  return (
+    <div className="grid gap-1">
+      <label htmlFor={id} className="text-sm font-semibold text-[var(--muted)]">
+        {label}
+      </label>
+      <div className="flex gap-2">
+        <input
+          id={id}
+          type="date"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="min-h-14 w-full min-w-0 rounded-[var(--radius)] border border-[var(--line-strong)] bg-[var(--panel-strong)] px-4 text-xl font-semibold text-[var(--ink)] outline-none focus:border-[var(--accent)]"
+        />
+        {action && (
+          <button
+            type="button"
+            onClick={action.onClick}
+            className="min-h-14 shrink-0 rounded-[var(--radius)] border border-[var(--line-strong)] bg-[var(--panel-strong)] px-4 font-semibold text-[var(--ink)]"
+          >
+            {action.label}
+          </button>
+        )}
+      </div>
+      {hint && <p className="text-sm text-[var(--muted)]">{hint}</p>}
+    </div>
+  )
+}
