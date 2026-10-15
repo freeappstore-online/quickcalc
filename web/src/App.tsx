@@ -126,7 +126,7 @@ function ComingSoon({ partial = false }: { partial?: boolean }) {
   return (
     <p className="rounded-[var(--radius)] border border-[var(--line)] bg-[var(--panel)] p-4 text-[var(--muted)]">
       {partial
-        ? 'Tip & split and Percent work now; the other calculators are coming soon.'
+        ? 'Tip & split, Percent and Discount work now; the other calculators are coming soon.'
         : "Coming soon. This calculator is in development and doesn't calculate anything yet."}
     </p>
   )

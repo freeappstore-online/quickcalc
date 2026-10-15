@@ -1,7 +1,7 @@
 # quickcalc
 
 Everyday Calculators: tip and split, percent, discount, age and date, and fuel calculators on
-FreeAppStore. Pure client-side maths, offline and private. Tip & split and Percent are built
+FreeAppStore. Pure client-side maths, offline and private. Tip & split, Percent and Discount are built
 (`web/src/calculators/`); the rest are "Coming soon". See freeappstore-online/platform#185.
 
 - Live: https://quickcalc.freeappstore.online
