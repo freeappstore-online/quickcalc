@@ -143,3 +143,14 @@ export function toString(a: Decimal, minPlaces = 0): string {
 export function toNumber(a: Decimal): number {
   return Number(toString(a))
 }
+
+/** The value as a whole number of 10^-places units, rounded half-up: 12.345 at 2 -> 1235n. */
+export function toUnits(a: Decimal, places: number): bigint {
+  const r = round(a, places)
+  return widen(r, places)
+}
+
+/** The inverse of toUnits: 1235n at 2 places -> 12.35. */
+export function fromUnits(units: bigint, places: number): Decimal {
+  return normalize({ units, scale: places })
+}

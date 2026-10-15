@@ -41,12 +41,14 @@ export function NumberField({
   onChange,
   suffix,
   hint,
+  inputMode = 'decimal',
 }: {
   label: string
   value: string
   onChange: (text: string) => void
   suffix?: string
   hint?: string
+  inputMode?: 'decimal' | 'numeric'
 }) {
   const id = useId()
   return (
@@ -58,7 +60,7 @@ export function NumberField({
         <input
           id={id}
           type="text"
-          inputMode="decimal"
+          inputMode={inputMode}
           autoComplete="off"
           value={value}
           onChange={(e) => onChange(e.target.value)}
@@ -71,11 +73,12 @@ export function NumberField({
   )
 }
 
-/** The answer, large, with a button that copies it. */
-export function Result({ label, value, detail }: { label: string; value: string; detail?: string }) {
+/** The answer, large (a dash and no copy while there is none), with a button that copies it. */
+export function Result({ label, value, detail }: { label: string; value: string | null; detail?: string }) {
   const toast = useToast()
   const [copied, setCopied] = useState(false)
   const copy = async () => {
+    if (value === null) return
     try {
       await navigator.clipboard.writeText(value)
       setCopied(true)
@@ -92,13 +95,14 @@ export function Result({ label, value, detail }: { label: string; value: string;
     >
       <div className="min-w-0">
         <p className="text-sm font-semibold text-[var(--muted)]">{label}</p>
-        <p className="display-font break-words text-4xl text-[var(--ink)]">{value}</p>
+        <p className="display-font break-words text-4xl text-[var(--ink)]">{value ?? '—'}</p>
         {detail && <p className="text-sm text-[var(--muted)]">{detail}</p>}
       </div>
       <button
         type="button"
         onClick={copy}
-        className="min-h-11 shrink-0 rounded-[var(--radius-sm)] border border-[var(--line-strong)] bg-[var(--panel-strong)] px-4 font-semibold text-[var(--ink)]"
+        disabled={value === null}
+        className="min-h-11 shrink-0 rounded-[var(--radius-sm)] border border-[var(--line-strong)] bg-[var(--panel-strong)] px-4 font-semibold text-[var(--ink)] disabled:opacity-40"
       >
         {copied ? 'Copied' : 'Copy'}
       </button>
@@ -129,6 +133,41 @@ export function CurrencyPicker() {
           </option>
         ))}
       </select>
+    </div>
+  )
+}
+
+/** A row of toggle buttons for picking one option (tip presets, modes). */
+export function Choice<T extends string>({
+  label,
+  options,
+  value,
+  onChange,
+}: {
+  label: string
+  options: { value: T; label: string }[]
+  value: T
+  onChange: (value: T) => void
+}) {
+  const id = useId()
+  return (
+    <div className="grid gap-1">
+      <p id={id} className="text-sm font-semibold text-[var(--muted)]">
+        {label}
+      </p>
+      <div role="group" aria-labelledby={id} className="flex flex-wrap gap-2">
+        {options.map((o) => (
+          <button
+            key={o.value}
+            type="button"
+            aria-pressed={o.value === value}
+            onClick={() => onChange(o.value)}
+            className="min-h-12 min-w-14 flex-1 rounded-[var(--radius-sm)] border border-[var(--line-strong)] bg-[var(--panel-strong)] px-3 font-semibold text-[var(--ink)] aria-pressed:border-[var(--accent)] aria-pressed:bg-[var(--accent)] aria-pressed:text-[var(--paper)]"
+          >
+            {o.label}
+          </button>
+        ))}
+      </div>
     </div>
   )
 }

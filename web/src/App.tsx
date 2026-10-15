@@ -66,7 +66,7 @@ function Calculators({ navigate }: { navigate: (href: string) => void }) {
   return (
     <>
       <PageHeader title="Calculators" description="Quick, private everyday maths." />
-      <ComingSoon />
+      <ComingSoon partial />
       <ul className="mt-4 grid gap-3 sm:grid-cols-2">
         {TOOLS.map((tool) => (
           <li key={tool.id}>
@@ -75,7 +75,10 @@ function Calculators({ navigate }: { navigate: (href: string) => void }) {
               onClick={linkClick(navigate, tool.href)}
               className="block min-h-20 rounded-[var(--radius)] border border-[var(--line)] bg-[var(--panel)] p-4 hover:border-[var(--accent)]"
             >
-              <span className="block font-semibold text-[var(--ink)]">{tool.name}</span>
+              <span className="block font-semibold text-[var(--ink)]">
+                {tool.name}
+                {!tool.component && <span className="ml-2 text-sm font-normal text-[var(--muted)]">Coming soon</span>}
+              </span>
               <span className="block text-sm text-[var(--muted)]">{tool.what}</span>
             </a>
           </li>
@@ -91,7 +94,7 @@ function Calculators({ navigate }: { navigate: (href: string) => void }) {
 function ToolScreen({ tool, navigate }: { tool: Tool; navigate: (href: string) => void }) {
   return (
     <ToolFrame title={tool.name} description={tool.what} onBack={linkClick(navigate, '/')}>
-      {!tool.ready && <ComingSoon />}
+      {tool.component ? <tool.component /> : <ComingSoon />}
     </ToolFrame>
   )
 }
@@ -100,7 +103,7 @@ function About() {
   return (
     <>
       <PageHeader title="About" />
-      <ComingSoon />
+      <ComingSoon partial />
       <p className="mt-4 text-[var(--muted)]">
         Everyday Calculators will bundle the small calculators people reach for every day: tip and
         split, percent, discount, age and date, and fuel. All the maths will run on your device, so
@@ -117,12 +120,14 @@ function About() {
   )
 }
 
-// Placeholder until the tools are built. None of them work yet, so it says so plainly.
-function ComingSoon() {
+// Says plainly which tools work yet. `partial` is the Calculators-screen note;
+// without it, the placeholder for a tool that isn't built.
+function ComingSoon({ partial = false }: { partial?: boolean }) {
   return (
     <p className="rounded-[var(--radius)] border border-[var(--line)] bg-[var(--panel)] p-4 text-[var(--muted)]">
-      Coming soon. Everyday Calculators is in development; the calculators don't calculate anything
-      yet.
+      {partial
+        ? 'Tip & split and Percent work now; the other calculators are coming soon.'
+        : "Coming soon. This calculator is in development and doesn't calculate anything yet."}
     </p>
   )
 }
