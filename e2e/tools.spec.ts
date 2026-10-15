@@ -124,3 +124,19 @@ test('every tile opens its tool and the back link returns', async ({ page }) => 
   await open(page, '/nowhere')
   await expect(page.getByRole('heading', { level: 1, name: 'Calculators' })).toBeVisible()
 })
+
+test.describe('at 320px, the narrowest supported width', () => {
+  test.use({ viewport: { width: 320, height: 640 } })
+
+  test('no button or field is clipped', async ({ page }) => {
+    for (const name of ['Tip & split', 'Percent', 'Discount', 'Age & date', 'Fuel']) {
+      await openTool(page, name)
+      const clipped = await page.evaluate(() =>
+        [...document.querySelectorAll<HTMLElement>('main button, main label, main input')]
+          .filter((el) => el.scrollWidth > el.clientWidth + 1)
+          .map((el) => el.textContent || el.getAttribute('aria-label') || el.id),
+      )
+      expect(clipped, name).toEqual([])
+    }
+  })
+})

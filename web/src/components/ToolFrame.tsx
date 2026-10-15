@@ -99,7 +99,7 @@ export function Result({ label, value, detail }: { label: string; value: string 
         <p id={labelId} className="text-sm font-semibold text-[var(--muted)]">
           {label}
         </p>
-        <p className="display-font break-words text-4xl text-[var(--ink)]">{value ?? '—'}</p>
+        <p className="display-font break-words text-3xl text-[var(--ink)] sm:text-4xl">{value ?? '—'}</p>
         {detail && <p className="text-sm text-[var(--muted)]">{detail}</p>}
       </div>
       <button
@@ -167,7 +167,7 @@ export function Choice<T extends string>({
             type="button"
             aria-pressed={o.value === value}
             onClick={() => onChange(o.value)}
-            className="min-h-12 min-w-14 flex-1 rounded-[var(--radius-sm)] border border-[var(--line-strong)] bg-[var(--panel-strong)] px-3 font-semibold text-[var(--ink)] aria-pressed:border-[var(--accent)] aria-pressed:bg-[var(--accent)] aria-pressed:text-[var(--paper)]"
+            className="min-h-12 min-w-14 flex-auto rounded-[var(--radius-sm)] border border-[var(--line-strong)] bg-[var(--panel-strong)] px-3 font-semibold text-[var(--ink)] aria-pressed:border-[var(--accent)] aria-pressed:bg-[var(--accent)] aria-pressed:text-[var(--paper)]"
           >
             {o.label}
           </button>
