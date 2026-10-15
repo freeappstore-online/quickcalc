@@ -1,0 +1,15 @@
+{
+  "name": "quickcalc",
+  "private": true,
+  "packageManager": "pnpm@10.30.3",
+  "engines": { "node": ">=22" },
+  "pnpm": { "onlyBuiltDependencies": ["esbuild"] },
+  "repository": { "type": "git", "url": "git+https://github.com/freeappstore-online/quickcalc.git" },
+  "scripts": {
+    "dev": "pnpm --filter @quickcalc/web dev",
+    "build": "pnpm --filter @quickcalc/web build",
+    "preview": "pnpm --filter @quickcalc/web preview",
+    "typecheck": "pnpm --filter @quickcalc/web exec tsc -b",
+    "test": "pnpm --filter @quickcalc/web exec tsc -b"
+  }
+}
