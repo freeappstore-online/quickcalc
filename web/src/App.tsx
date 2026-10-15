@@ -1,24 +1,19 @@
-import { useEffect, useState } from 'react'
+import { type MouseEvent, useEffect, useState } from 'react'
 import { initApp } from '@freeappstore/sdk'
 import { BuildInfo, type NavItem, PageHeader, Shell } from '@freeappstore/sdk/ui'
+import { CurrencyPicker, ToolFrame } from './components/ToolFrame'
+import { SettingsProvider } from './settings'
+import { type Tool, TOOLS, toolForPath } from './tools'
 
 const fas = initApp({ appId: 'quickcalc' })
 
 // The app's screens. Shell renders them as its navbar (<nav aria-label="Main">,
 // current screen highlighted, a menu on phones). `title` becomes the browser
-// tab title on that route.
+// tab title on that route. Each calculator has its own route, reached from a
+// tile on the Calculators screen.
 const NAV: NavItem[] = [
   { label: 'Calculators', href: '/', title: 'Everyday Calculators' },
   { label: 'About', href: '/about', title: 'About — Everyday Calculators' },
-]
-
-// The tools planned for v1 (freeappstore-online/platform#185).
-const TOOLS = [
-  { name: 'Tip & split', what: 'Bill, tip and how much each person pays.' },
-  { name: 'Percent', what: 'X% of Y, what percent X is of Y, and % change.' },
-  { name: 'Discount', what: 'Sale price with stacked discounts and tax.' },
-  { name: 'Age & date', what: 'Exact age, days between dates, and adding days.' },
-  { name: 'Fuel', what: 'Trip cost in litres or gallons, km or miles.' },
 ]
 
 export default function App() {
@@ -39,27 +34,65 @@ export default function App() {
   }
 
   return (
-    <Shell app={fas} appName="Everyday Calculators" nav={NAV} onNavigate={navigate}>
-      <div className="mx-auto w-full max-w-3xl p-4 sm:p-8">{path === '/about' ? <About /> : <Calculators />}</div>
-      <BuildInfo />
-    </Shell>
+    <SettingsProvider>
+      <Shell app={fas} appName="Everyday Calculators" nav={NAV} onNavigate={navigate}>
+        <div className="mx-auto w-full max-w-3xl p-4 sm:p-8">
+          <Screen path={path} navigate={navigate} />
+        </div>
+        <BuildInfo />
+      </Shell>
+    </SettingsProvider>
   )
 }
 
-function Calculators() {
+/** A plain left click becomes client-side navigation; modified clicks open as links. */
+function linkClick(navigate: (href: string) => void, href: string) {
+  return (e: MouseEvent<HTMLAnchorElement>) => {
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
+    e.preventDefault()
+    navigate(href)
+  }
+}
+
+function Screen({ path, navigate }: { path: string; navigate: (href: string) => void }) {
+  if (path === '/about') return <About />
+  const tool = toolForPath(path)
+  if (tool) return <ToolScreen tool={tool} navigate={navigate} />
+  return <Calculators navigate={navigate} />
+}
+
+// One tile per tool; each opens the tool's own route.
+function Calculators({ navigate }: { navigate: (href: string) => void }) {
   return (
     <>
       <PageHeader title="Calculators" description="Quick, private everyday maths." />
       <ComingSoon />
       <ul className="mt-4 grid gap-3 sm:grid-cols-2">
         {TOOLS.map((tool) => (
-          <li key={tool.name} className="rounded-[var(--radius)] border border-[var(--line)] p-4">
-            <p className="font-semibold text-[var(--ink)]">{tool.name}</p>
-            <p className="text-sm text-[var(--muted)]">{tool.what}</p>
+          <li key={tool.id}>
+            <a
+              href={tool.href}
+              onClick={linkClick(navigate, tool.href)}
+              className="block min-h-20 rounded-[var(--radius)] border border-[var(--line)] bg-[var(--panel)] p-4 hover:border-[var(--accent)]"
+            >
+              <span className="block font-semibold text-[var(--ink)]">{tool.name}</span>
+              <span className="block text-sm text-[var(--muted)]">{tool.what}</span>
+            </a>
           </li>
         ))}
       </ul>
+      <div className="mt-6 max-w-sm">
+        <CurrencyPicker />
+      </div>
     </>
+  )
+}
+
+function ToolScreen({ tool, navigate }: { tool: Tool; navigate: (href: string) => void }) {
+  return (
+    <ToolFrame title={tool.name} description={tool.what} onBack={linkClick(navigate, '/')}>
+      {!tool.ready && <ComingSoon />}
+    </ToolFrame>
   )
 }
 
@@ -88,7 +121,7 @@ function About() {
 function ComingSoon() {
   return (
     <p className="rounded-[var(--radius)] border border-[var(--line)] bg-[var(--panel)] p-4 text-[var(--muted)]">
-      Coming soon. Everyday Calculators is in development; the tools below don't calculate anything
+      Coming soon. Everyday Calculators is in development; the calculators don't calculate anything
       yet.
     </p>
   )

@@ -20,6 +20,6 @@
     "build": "pnpm --filter @quickcalc/web build",
     "preview": "pnpm --filter @quickcalc/web preview",
     "typecheck": "pnpm --filter @quickcalc/web exec tsc -b",
-    "test": "pnpm --filter @quickcalc/web exec tsc -b"
+    "test": "pnpm --filter @quickcalc/web test"
   }
 }

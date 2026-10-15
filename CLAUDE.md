@@ -7,6 +7,7 @@ FreeAppStore. Pure client-side maths, offline and private. Currently a "Coming s
 - Live: https://quickcalc.freeappstore.online
 - Dev: `pnpm install && pnpm dev`
 - Build: `pnpm build`
+- Test: `pnpm test` (vitest, `web/src/**/*.test.ts`)
 - Check: `fas check`
 - Deploy: `git push origin main` (auto-deploys to R2 via GitHub Actions)
 
