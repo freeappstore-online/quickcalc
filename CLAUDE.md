@@ -8,7 +8,8 @@ FreeAppStore. Pure client-side maths, offline and private. All five tools are bu
 - Dev: `pnpm install && pnpm dev`
 - Build: `pnpm build`
 - Test: `pnpm test` (vitest, `web/src/**/*.test.ts`)
-- Check: `fas check`
+- E2E: `pnpm e2e` (builds, then Playwright in `e2e/`: each tool, reload persistence, offline, privacy)
+- Check: `fas check`; layout: `pnpm build && fas screencheck --skip-build` (the page never scrolls; screens scroll inside `.qc-page`)
 - Deploy: `git push origin main` (auto-deploys to R2 via GitHub Actions)
 
 ## Notes

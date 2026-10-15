@@ -232,3 +232,46 @@ a:focus-visible {
 /* Shell's text-size preference scales rem-based app typography. */
 :root[data-text='lg'] { font-size: 112.5%; }
 :root[data-text='sm'] { font-size: 87.5%; }
+
+/* ── App frame ────────────────────────────────────────────────────────────
+   The app fills the screen exactly: the header stays put, each screen
+   scrolls inside it, and the page itself never scrolls. */
+
+div:has(> main.fas-main) {
+  height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  min-height: 0 !important;
+}
+
+main.fas-main {
+  min-height: 0;
+}
+
+.qc-page {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+}
+
+/* "Everyday Calculators" is a long name for the Shell header; on the
+   narrowest phones tighten its spacing so Sign in stays on screen. */
+@media (max-width: 359px) {
+  #root header {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+    gap: 0.25rem;
+  }
+  #root header > div:first-child {
+    min-width: 0;
+    gap: 0.4rem !important;
+  }
+  #root header > div:first-child > span {
+    min-width: 0;
+    font-size: 0.75rem !important;
+    line-height: 1.15;
+  }
+  #root header > div:last-child {
+    gap: 0.25rem !important;
+  }
+}

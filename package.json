@@ -19,7 +19,14 @@
     "dev": "pnpm --filter @quickcalc/web dev",
     "build": "pnpm --filter @quickcalc/web build",
     "preview": "pnpm --filter @quickcalc/web preview",
-    "typecheck": "pnpm --filter @quickcalc/web exec tsc -b",
-    "test": "pnpm --filter @quickcalc/web test"
+    "typecheck": "pnpm --filter @quickcalc/web exec tsc -b && tsc -p e2e",
+    "test": "pnpm --filter @quickcalc/web test",
+    "e2e": "pnpm build && playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1",
+    "@types/node": "^26.6.5",
+    "playwright": "1.64.1",
+    "typescript": "~6.0.3"
   }
 }

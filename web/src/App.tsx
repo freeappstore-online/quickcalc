@@ -1,4 +1,4 @@
-import { type MouseEvent, useEffect, useState } from 'react'
+import { type MouseEvent, useEffect, useRef, useState } from 'react'
 import { initApp } from '@freeappstore/sdk'
 import { BuildInfo, type NavItem, PageHeader, Shell } from '@freeappstore/sdk/ui'
 import { CurrencyPicker, ToolFrame } from './components/ToolFrame'
@@ -18,6 +18,12 @@ const NAV: NavItem[] = [
 
 export default function App() {
   const [path, setPath] = useState(() => window.location.pathname)
+  const page = useRef<HTMLDivElement>(null)
+
+  // Screens scroll inside the frame, so a new screen starts at its top.
+  useEffect(() => {
+    page.current?.scrollTo(0, 0)
+  }, [path])
 
   // Keep the screen in step with the browser's back and forward buttons.
   useEffect(() => {
@@ -36,10 +42,13 @@ export default function App() {
   return (
     <SettingsProvider>
       <Shell app={fas} appName="Everyday Calculators" nav={NAV} onNavigate={navigate}>
-        <div className="mx-auto w-full max-w-3xl p-4 sm:p-8">
-          <Screen path={path} navigate={navigate} />
+        {/* Each screen scrolls inside the app frame; the page itself never does. */}
+        <div ref={page} className="qc-page">
+          <div className="mx-auto w-full max-w-3xl p-4 sm:p-8">
+            <Screen path={path} navigate={navigate} />
+          </div>
+          <BuildInfo />
         </div>
-        <BuildInfo />
       </Shell>
     </SettingsProvider>
   )
@@ -106,9 +115,50 @@ function About() {
       <p className="mt-4 text-[var(--muted)]">
         Everyday Calculators bundles the small calculators people reach for every day: tip and
         split, percent, discount, age and date, and fuel. All the maths runs on your device, so it
-        works offline and nothing you type leaves it. Your last inputs are kept on this device only.
-        No ads.
+        works offline. No ads.
       </p>
+      <section
+        id="privacy"
+        aria-labelledby="privacy-title"
+        className="mt-6 rounded-[var(--radius)] border border-[var(--line)] bg-[var(--panel)] p-4"
+      >
+        <h2 id="privacy-title" className="text-lg font-bold text-[var(--ink)]">
+          Privacy
+        </h2>
+        <ul className="mt-2 flex list-disc flex-col gap-2 pl-5 text-[var(--muted)]">
+          <li>
+            <strong className="text-[var(--ink)]">Every calculation stays on your device.</strong>{' '}
+            Nothing you type is uploaded: all the maths runs in this browser.
+          </li>
+          <li>
+            Each calculator's last inputs and your currency are saved on this device only, in this
+            browser's storage for the site (localStorage), so they're there when you come back.
+            They aren't kept in your FreeAppStore account, backed up or synced. Clearing this site's
+            data removes them.
+          </li>
+          <li>
+            <strong className="text-[var(--ink)]">No account needed.</strong> Every calculator works
+            without signing in, and signing in doesn't upload anything.
+          </li>
+          <li>
+            Page-view counts: the app loads FreeAppStore's store analytics script
+            (api.freeappstore.online/v1/analytics.js), which records which screen you opened (for
+            example /tip), the page that linked here, and the time. It's sent to FreeAppStore without
+            cookies and without your account, and held in this browser while you're offline. Your
+            inputs and results are never included.
+          </li>
+          <li>
+            Everyday Calculators is served via FreeAppStore, which also loads Cloudflare Web Analytics
+            (beacon.min.js from static.cloudflareinsights.com). It doesn't use cookies and reports only
+            aggregate page-view statistics, such as page load times and visit counts. As with any
+            website, the servers handling these requests see your IP address and browser type.
+          </li>
+          <li>
+            No ads, no tracking cookies and no advertising or tracking SDKs. The only third-party
+            script is the Cloudflare Web Analytics beacon above.
+          </li>
+        </ul>
+      </section>
       <p className="mt-4 text-[var(--muted)]">
         Everyday Calculators is a free, MIT-licensed app on{' '}
         <a href="https://freeappstore.online" className="underline">

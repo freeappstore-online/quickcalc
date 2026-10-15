@@ -76,6 +76,7 @@ export function NumberField({
 /** The answer, large (a dash and no copy while there is none), with a button that copies it. */
 export function Result({ label, value, detail }: { label: string; value: string | null; detail?: string }) {
   const toast = useToast()
+  const labelId = useId()
   const [copied, setCopied] = useState(false)
   const copy = async () => {
     if (value === null) return
@@ -90,11 +91,14 @@ export function Result({ label, value, detail }: { label: string; value: string 
   }
   return (
     <section
+      aria-labelledby={labelId}
       aria-live="polite"
       className="flex items-center justify-between gap-3 rounded-[var(--radius)] border border-[var(--line)] bg-[var(--accent-soft)] p-4"
     >
       <div className="min-w-0">
-        <p className="text-sm font-semibold text-[var(--muted)]">{label}</p>
+        <p id={labelId} className="text-sm font-semibold text-[var(--muted)]">
+          {label}
+        </p>
         <p className="display-font break-words text-4xl text-[var(--ink)]">{value ?? '—'}</p>
         {detail && <p className="text-sm text-[var(--muted)]">{detail}</p>}
       </div>
@@ -102,6 +106,7 @@ export function Result({ label, value, detail }: { label: string; value: string 
         type="button"
         onClick={copy}
         disabled={value === null}
+        aria-label={`Copy ${label.toLowerCase()}`}
         className="min-h-11 shrink-0 rounded-[var(--radius-sm)] border border-[var(--line-strong)] bg-[var(--panel-strong)] px-4 font-semibold text-[var(--ink)] disabled:opacity-40"
       >
         {copied ? 'Copied' : 'Copy'}

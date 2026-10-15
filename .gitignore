@@ -9,3 +9,8 @@ dist
 
 # VibeCode QA reports (regenerated on each scan)
 .vibe-check/
+
+# Playwright and fas screencheck output
+playwright-report/
+test-results/
+screencheck-out/
