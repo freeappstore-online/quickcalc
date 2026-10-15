@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs'
 import { choice, expect, open, openTool, test } from './fixtures'
 
 // Privacy. The live host's edge injects Cloudflare Web Analytics; the app
@@ -37,4 +38,18 @@ test('works in the dark theme too', async ({ page }) => {
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
   const ink = await page.getByLabel('Bill').evaluate((el) => getComputedStyle(el).color)
   expect(ink).toBe('rgb(240, 240, 240)')
+})
+
+test('launch copy is the same everywhere and nothing says "coming soon"', async ({ page }) => {
+  const line = 'Everyday calculators: tip & split, percent, discount, age & date, fuel. Private and offline.'
+  const pkg = JSON.parse(readFileSync('package.json', 'utf8'))
+  const manifest = JSON.parse(readFileSync('web/public/manifest.json', 'utf8'))
+  expect(pkg.description).toBe(line)
+  expect(manifest.description).toBe(line)
+  await open(page)
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', line)
+  for (const path of ['/', '/tip', '/percent', '/discount', '/date', '/fuel', '/about']) {
+    await open(page, path)
+    await expect(page.locator('body')).not.toContainText(/coming soon/i)
+  }
 })

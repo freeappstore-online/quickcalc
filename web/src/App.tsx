@@ -75,7 +75,9 @@ function Calculators({ navigate }: { navigate: (href: string) => void }) {
   return (
     <>
       <PageHeader title="Calculators" description="Quick, private everyday maths." />
-      <ComingSoon partial />
+      <p className="mt-2 text-[var(--muted)]">
+        Pick a calculator. Everything works offline, and nothing you type leaves your device.
+      </p>
       <ul className="mt-4 grid gap-3 sm:grid-cols-2">
         {TOOLS.map((tool) => (
           <li key={tool.id}>
@@ -84,10 +86,7 @@ function Calculators({ navigate }: { navigate: (href: string) => void }) {
               onClick={linkClick(navigate, tool.href)}
               className="block min-h-20 rounded-[var(--radius)] border border-[var(--line)] bg-[var(--panel)] p-4 hover:border-[var(--accent)]"
             >
-              <span className="block font-semibold text-[var(--ink)]">
-                {tool.name}
-                {!tool.component && <span className="ml-2 text-sm font-normal text-[var(--muted)]">Coming soon</span>}
-              </span>
+              <span className="block font-semibold text-[var(--ink)]">{tool.name}</span>
               <span className="block text-sm text-[var(--muted)]">{tool.what}</span>
             </a>
           </li>
@@ -103,7 +102,7 @@ function Calculators({ navigate }: { navigate: (href: string) => void }) {
 function ToolScreen({ tool, navigate }: { tool: Tool; navigate: (href: string) => void }) {
   return (
     <ToolFrame title={tool.name} description={tool.what} onBack={linkClick(navigate, '/')}>
-      {tool.component ? <tool.component /> : <ComingSoon />}
+      <tool.component />
     </ToolFrame>
   )
 }
@@ -167,17 +166,5 @@ function About() {
         .
       </p>
     </>
-  )
-}
-
-// Says plainly which tools work yet. `partial` is the Calculators-screen note;
-// without it, the placeholder for a tool that isn't built.
-function ComingSoon({ partial = false }: { partial?: boolean }) {
-  return (
-    <p className="rounded-[var(--radius)] border border-[var(--line)] bg-[var(--panel)] p-4 text-[var(--muted)]">
-      {partial
-        ? 'All five calculators work offline, and nothing you type leaves your device.'
-        : "Coming soon. This calculator is in development and doesn't calculate anything yet."}
-    </p>
   )
 }

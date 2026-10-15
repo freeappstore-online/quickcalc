@@ -1,5 +1,5 @@
 // The calculators, one tile and route each (freeappstore-online/platform#185).
-// A tool with a `component` is built; the rest show "Coming soon".
+// Each tool's maths lives in calculators/<id>.ts, its screen in calculators/*Tool.tsx.
 
 import type { ComponentType } from 'react'
 import DateTool from './calculators/DateTool'
@@ -13,7 +13,7 @@ export interface Tool {
   name: string
   what: string
   href: string
-  component?: ComponentType
+  component: ComponentType
 }
 
 export const TOOLS: Tool[] = [

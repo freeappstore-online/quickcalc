@@ -1,12 +1,10 @@
 # Everyday Calculators
 
-**Coming soon — tip and split, percent, discount, age and date, and fuel calculators. Private and
-offline.** A free app on [FreeAppStore](https://freeappstore.online), live at
-https://quickcalc.freeappstore.online.
+Five everyday calculators that run entirely in your browser: tip & split, percent, discount, age &
+date, and fuel. No account, no ads — calculations stay on your device, and it works offline.
 
-Right now this is a shell: it lists the planned tools, but none of them calculate anything yet.
-Progress is tracked in
-[freeappstore-online/platform#185](https://github.com/freeappstore-online/platform/issues/185).
+A free, MIT-licensed app on [FreeAppStore](https://freeappstore.online), live at
+https://quickcalc.freeappstore.online.
 
 ## Develop
 
