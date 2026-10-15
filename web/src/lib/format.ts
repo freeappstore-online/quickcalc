@@ -2,7 +2,7 @@
 // Values are rounded exactly first, then handed to Intl as strings, so
 // formatting never goes through a float (large values keep every digit).
 
-import { type Decimal, parse, round, toString } from './decimal'
+import { type Decimal, normalize, parse, round, toString } from './decimal'
 
 type NumericString = `${number}`
 
@@ -29,6 +29,15 @@ export function formatNumber(d: Decimal, locale = deviceLocale(), opts: NumberFo
     minimumFractionDigits: minPlaces,
     maximumFractionDigits: maxPlaces,
   }).format(intlValue(round(d, maxPlaces), minPlaces))
+}
+
+/**
+ * A value to put back into an input field: rounded half-up, trailing zeros
+ * dropped, no grouping, and the locale's decimal mark, so parseInput reads it
+ * back exactly ("12,5" in de-DE).
+ */
+export function inputText(d: Decimal, locale = deviceLocale(), maxPlaces = 2): string {
+  return toString(normalize(round(d, maxPlaces))).replace('.', separators(locale).decimal)
 }
 
 /** Digits after the point for a currency: 2 for USD and EUR, 0 for JPY. */

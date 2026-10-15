@@ -103,11 +103,11 @@ function About() {
   return (
     <>
       <PageHeader title="About" />
-      <ComingSoon partial />
       <p className="mt-4 text-[var(--muted)]">
-        Everyday Calculators will bundle the small calculators people reach for every day: tip and
-        split, percent, discount, age and date, and fuel. All the maths will run on your device, so
-        it works offline and nothing you type leaves it. No ads.
+        Everyday Calculators bundles the small calculators people reach for every day: tip and
+        split, percent, discount, age and date, and fuel. All the maths runs on your device, so it
+        works offline and nothing you type leaves it. Your last inputs are kept on this device only.
+        No ads.
       </p>
       <p className="mt-4 text-[var(--muted)]">
         Everyday Calculators is a free, MIT-licensed app on{' '}
@@ -126,7 +126,7 @@ function ComingSoon({ partial = false }: { partial?: boolean }) {
   return (
     <p className="rounded-[var(--radius)] border border-[var(--line)] bg-[var(--panel)] p-4 text-[var(--muted)]">
       {partial
-        ? 'Tip & split, Percent, Discount and Age & date work now; Fuel is coming soon.'
+        ? 'All five calculators work offline, and nothing you type leaves your device.'
         : "Coming soon. This calculator is in development and doesn't calculate anything yet."}
     </p>
   )
