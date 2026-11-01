@@ -61,7 +61,7 @@ export default function DiscountTool() {
         ]}
       />
       {error && (
-        <p role="alert" className="font-semibold text-[var(--danger)]">
+        <p role="alert" className="font-semibold text-danger">
           {error}
         </p>
       )}

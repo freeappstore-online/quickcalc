@@ -75,7 +75,7 @@ function Calculators({ navigate }: { navigate: (href: string) => void }) {
   return (
     <>
       <PageHeader title="Calculators" description="Quick, private everyday maths." />
-      <p className="mt-2 text-[var(--muted)]">
+      <p className="mt-2 text-muted">
         Pick a calculator. Everything works offline, and nothing you type leaves your device.
       </p>
       <ul className="mt-4 grid gap-3 sm:grid-cols-2">
@@ -84,10 +84,10 @@ function Calculators({ navigate }: { navigate: (href: string) => void }) {
             <a
               href={tool.href}
               onClick={linkClick(navigate, tool.href)}
-              className="block min-h-20 rounded-[var(--radius)] border border-[var(--line)] bg-[var(--panel)] p-4 hover:border-[var(--accent)]"
+              className="block min-h-20 rounded-fas border border-line bg-panel p-4 hover:border-accent"
             >
-              <span className="block font-semibold text-[var(--ink)]">{tool.name}</span>
-              <span className="block text-sm text-[var(--muted)]">{tool.what}</span>
+              <span className="block font-semibold text-ink">{tool.name}</span>
+              <span className="block text-sm text-muted">{tool.what}</span>
             </a>
           </li>
         ))}
@@ -111,7 +111,7 @@ function About() {
   return (
     <>
       <PageHeader title="About" />
-      <p className="mt-4 text-[var(--muted)]">
+      <p className="mt-4 text-muted">
         Everyday Calculators bundles the small calculators people reach for every day: tip and
         split, percent, discount, age and date, and fuel. All the maths runs on your device, so it
         works offline. No ads.
@@ -119,14 +119,14 @@ function About() {
       <section
         id="privacy"
         aria-labelledby="privacy-title"
-        className="mt-6 rounded-[var(--radius)] border border-[var(--line)] bg-[var(--panel)] p-4"
+        className="mt-6 rounded-fas border border-line bg-panel p-4"
       >
-        <h2 id="privacy-title" className="text-lg font-bold text-[var(--ink)]">
+        <h2 id="privacy-title" className="text-lg font-bold text-ink">
           Privacy
         </h2>
-        <ul className="mt-2 flex list-disc flex-col gap-2 pl-5 text-[var(--muted)]">
+        <ul className="mt-2 flex list-disc flex-col gap-2 pl-5 text-muted">
           <li>
-            <strong className="text-[var(--ink)]">Every calculation stays on your device.</strong>{' '}
+            <strong className="text-ink">Every calculation stays on your device.</strong>{' '}
             Nothing you type is uploaded: all the maths runs in this browser.
           </li>
           <li>
@@ -136,7 +136,7 @@ function About() {
             data removes them.
           </li>
           <li>
-            <strong className="text-[var(--ink)]">No account needed.</strong> Every calculator works
+            <strong className="text-ink">No account needed.</strong> Every calculator works
             without signing in, and signing in doesn't upload anything.
           </li>
           <li>
@@ -158,7 +158,7 @@ function About() {
           </li>
         </ul>
       </section>
-      <p className="mt-4 text-[var(--muted)]">
+      <p className="mt-4 text-muted">
         Everyday Calculators is a free, MIT-licensed app on{' '}
         <a href="https://freeappstore.online" className="underline">
           FreeAppStore
